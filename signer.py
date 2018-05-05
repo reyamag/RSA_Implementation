@@ -13,26 +13,19 @@ from base64 import b64encode, b64decode
 # @return - the RSA key object with the loaded key
 ##################################################
 def loadKey(keyPath):
-	
 	# The RSA key
 	key = None
-	
 	# Open the key file
 	with open(keyPath, 'r') as keyFile:
-		
 		# Read the key file
 		keyFileContent = keyFile.read()
-		
 		# Decode the key
 		decodedKey = b64decode(keyFileContent)
-		
 		# Load the key
 		key = RSA.importKey(decodedKey)
-
 	# Return the key
 	return key	
 		
-
 ##################################################
 # Signs the string using an RSA private key
 # @param sigKey - the signature key
@@ -126,26 +119,25 @@ def verifySig(theHash, sig, veriKey):
 
 
 # The main function
-def main():
-	
+def main():	
 	# Make sure that all the arguments have been provided
 	if len(sys.argv) < 5:
-		print "USAGE: " + sys.argv[0] + " <KEY FILE NAME> <SIGNATURE FILE NAME> <INPUT FILE NAME>"
+		print "USAGE: " + sys.argv[0] + " <KEY FILE NAME> <SIGNATURE FILE NAME> <INPUT FILE NAME> <MODE>"
 		exit(-1)
-	
+		
+	# The program file being used
+	programName = sys.argv[0]
 	# The key file
 	keyFileName = sys.argv[1]
-	
 	# Signature file name
 	sigFileName = sys.argv[2]
-	
 	# The input file name
 	inputFileName = sys.argv[3]
-	
 	# The mode i.e., sign or verify
 	mode = sys.argv[4]
-
+	
 	# TODO: Load the key using the loadKey() function provided.
+	loadKey(keyFileName)
 	
 	# We are signing
 	if mode == "sign":
