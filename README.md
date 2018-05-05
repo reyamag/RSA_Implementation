@@ -15,20 +15,20 @@ When the program is running, it will check the mode, if the mode is sign, the pr
 If the mode is verify, the program will read the public key from the specified .pem file, read the signature from the specifed signature file, and compute the SHA 512 hash of the data file's contents. Next it will decrypt the signature and compare the result against the SHA 512 hash. If they match, then the signature has been successfully verified. If they do not match, then the verifircation fails. The program will utput the result of the verification. 
 
 # Running the program
-python signer.py <KEY FILE NAME> <SIGNATURE FILE NAME> <INPUT FILE NAME> <MODE> 
-  Where, 
-    KEY FILE NAME: the name of the file containing the private key (if signing) or public key
-    SIGNATURE FILE NAME: the file to which to save the digital signature (if signing) or from which to load the digital sigature (when verifiying)
-    INPUT FILE NAME: the file for which to generate or verify the digital signature
-    MODE: Can be the following,
-        sign:
-        1. read input file name
-        2. compute an SHA 512 hash of the contents read
-        3. encrpyt the hash with the private key from the key file name file
-        4. save the result (the digital signature) to the signature file name
+python signer.py <KEY FILE NAME> <SIGNATURE FILE NAME> <INPUT FILE NAME> <MODE> <br>
+  Where, <br>
+    KEY FILE NAME: the name of the file containing the private key (if signing) or public key <br>
+    SIGNATURE FILE NAME: the file to which to save the digital signature (if signing) or from which to load the digital sigature (when verifiying) <br>
+    INPUT FILE NAME: the file for which to generate or verify the digital signature <br>
+    MODE: Can be the following, <br>
+        sign: <br>
+        1. read input file name <br>
+        2. compute an SHA 512 hash of the contents read <br>
+        3. encrpyt the hash with the private key from the key file name file <br>
+        4. save the result (the digital signature) to the signature file name <br>
         verify:
-        1. read the input file name
-        2. compute an SHA 512 hash of the contents read
-        3. decrypt the signature from signature file name using the public key from file key file name
-        4. compare the decrypted vale against the SHA 512 hash, and output whether the signature matches.
+        1. read the input file name <br>
+        2. compute an SHA 512 hash of the contents read <br>
+        3. decrypt the signature from signature file name using the public key from file key file name <br>
+        4. compare the decrypted vale against the SHA 512 hash, and output whether the signature matches. <br>
   
