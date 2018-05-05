@@ -154,7 +154,7 @@ def main():
 		try:
 			dataFile = open(inputFileName, "r")
 			except FileNotFoundError:
-				print("ERR: '", input_file, "' cannot be opened! Try a valid file\n")
+				print("ERR: '", inputFileName, "' cannot be opened! Try a valid file\n")
 				return
 		
 		#Signing the string for the file signature
