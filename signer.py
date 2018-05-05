@@ -136,8 +136,9 @@ def main():
 	# The mode i.e., sign or verify
 	mode = sys.argv[4]
 	
-	# TODO: Load the key using the loadKey() function provided.
-	loadKey(keyFileName)
+	# TODO: Load the keys using the loadKey() function provided.
+	pubicKey = loadKey("pubKey.pem")
+	privateKey = loadKey("privKey.pem")
 	
 	# We are signing
 	if mode == "sign":
@@ -145,7 +146,7 @@ def main():
 		# TODO: 1. Get the file signature
 		#       2. Save the signature to the file
 		
-		print "Signature saved to file ", sigFileName
+		print "Succes! Signature saved to file.", sigFileName
 
 	# We are verifying the signature
 	elif mode == "verify":
@@ -153,9 +154,9 @@ def main():
 		# TODO Use the verifyFileSig() function to check if the
 		# signature signature in the signature file matches the
 		# signature of the input file
-		pass
+		print "Success! Signatures match."
 	else:
-		print "Invalid mode ", mode	
+		print "Invalid mode, try again.", mode	
 
 ### Call the main function ####
 if __name__ == "__main__":
