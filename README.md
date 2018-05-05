@@ -26,7 +26,7 @@ python signer.py <KEY FILE NAME> <SIGNATURE FILE NAME> <INPUT FILE NAME> <MODE> 
         2. compute an SHA 512 hash of the contents read <br>
         3. encrpyt the hash with the private key from the key file name file <br>
         4. save the result (the digital signature) to the signature file name <br>
-        - verify:
+        - verify: <br>
         1. read the input file name <br>
         2. compute an SHA 512 hash of the contents read <br>
         3. decrypt the signature from signature file name using the public key from file key file name <br>
