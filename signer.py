@@ -137,17 +137,34 @@ def main():
 	mode = sys.argv[4]
 	
 	# TODO: Load the keys using the loadKey() function provided.
-	pubicKey = loadKey("pubKey.pem")
-	privateKey = loadKey("privKey.pem")
+	if keyFilename == "pubKey.pem":
+		pubicKey = loadKey(keyFileName)
+	elif keyFilename == "privKey.pem":
+		privateKey = loadKey(keyFileName)
+	
+	# Prepaing for file use
+	dataFile = None
 	
 	# We are signing
 	if mode == "sign":
-		
 		# TODO: 1. Get the file signature
 		#       2. Save the signature to the file
 		
+		#Getting data / string from the file for the file signature
+		try:
+			dataFile = open(inputFileName, "r")
+			except FileNotFoundError:
+				print("ERR: '", input_file, "' cannot be opened! Try a valid file\n")
+				return
+		
+		#Signing the string for the file signature
+		dataSig = digSig(privateKey, dataFile)
+		
+		#Saving the signature to the input file 
+		saveSig(dataSig, inputFileName)
+		
 		print "Succes! Signature saved to file.", sigFileName
-
+		
 	# We are verifying the signature
 	elif mode == "verify":
 		
