@@ -15,7 +15,7 @@ When the program is running, it will check the mode, if the mode is sign, the pr
 If the mode is verify, the program will read the public key from the specified .pem file, read the signature from the specifed signature file, and compute the SHA 512 hash of the data file's contents. Next it will decrypt the signature and compare the result against the SHA 512 hash. If they match, then the signature has been successfully verified. If they do not match, then the verifircation fails. The program will utput the result of the verification. 
 
 # Running the program
-python signer.py <KEY FILE NAME> <SIGNATURE FILE NAME> <INPUT FILE NAME> <MODE> <br>
+python signer.py -KEY FILE NAME- -SIGNATURE FILE NAME- -INPUT FILE NAME- -MODE- <br>
   Where, <br>
     - KEY FILE NAME: the name of the file containing the private key (if signing) or public key <br>
     - SIGNATURE FILE NAME: the file to which to save the digital signature (if signing) or from which to load the digital sigature (when verifiying) <br>
