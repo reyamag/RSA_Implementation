@@ -64,7 +64,7 @@ def getFileSig(fileName, privKey):
 	
 	# Compute the SHA-512 hash of the contents
 	# dif = data in file 
-	difHash = SHA512.new(datainFile).hexdigest()
+	difHash = SHA512.new(cipherData).hexdigest()
 	
 	# Signing the hash using the digSig() function
 	fileSig = digSig(privKey, difHash)
