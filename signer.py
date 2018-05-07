@@ -32,9 +32,14 @@ def loadKey(keyPath):
 # @param string - the string
 ##################################################
 def digSig(sigKey, string):
+	# Get the SHA-512 hash of the string data
+	dataHash = SHA512.new(string).hexdigest()
 	
-	# TODO: return the signature of the file
-	pass
+	# Generating the signature by encrypting our hash with the private key
+	dataSignature = sigKey.sign(dataHash, '')
+	
+	# Return the signature
+	return dataSignature
 
 ##########################################################
 # Returns the file signature
@@ -122,7 +127,7 @@ def verifySig(theHash, sig, veriKey):
 def main():	
 	# Make sure that all the arguments have been provided
 	if len(sys.argv) < 5:
-		print "USAGE: " + sys.argv[0] + " <KEY FILE NAME> <SIGNATURE FILE NAME> <INPUT FILE NAME> <MODE>"
+		print ("USAGE: " + sys.argv[0] + " <KEY FILE NAME> <SIGNATURE FILE NAME> <INPUT FILE NAME> <MODE>")
 		exit(-1)
 		
 	# The program file being used
@@ -138,7 +143,7 @@ def main():
 	
 	# TODO: Load the keys using the loadKey() function provided.
 	if keyFilename == "pubKey.pem":
-		pubicKey = loadKey(keyFileName)
+		publicKey = loadKey(keyFileName)
 	elif keyFilename == "privKey.pem":
 		privateKey = loadKey(keyFileName)
 	
@@ -154,7 +159,7 @@ def main():
 		try:
 			dataFile = open(inputFileName, "r")
 			except FileNotFoundError:
-				print("ERR: '", inputFileName, "' cannot be opened! Try a valid file\n")
+				print("ERR: '", inputFileName, " cannot be opened! Try a valid file\n")
 				return
 		
 		#Signing the string for the file signature
@@ -163,17 +168,16 @@ def main():
 		#Saving the signature to the input file 
 		saveSig(dataSig, inputFileName)
 		
-		print "Succes! Signature saved to file.", sigFileName
-		
+		print ("Succes! Signature saved to file: ", sigFileName)
 	# We are verifying the signature
 	elif mode == "verify":
 		
 		# TODO Use the verifyFileSig() function to check if the
 		# signature signature in the signature file matches the
 		# signature of the input file
-		print "Success! Signatures match."
+		print ("Success! Signatures match.")
 	else:
-		print "Invalid mode, try again.", mode	
+		print ("Invalid mode, please try again.")
 
 ### Call the main function ####
 if __name__ == "__main__":
