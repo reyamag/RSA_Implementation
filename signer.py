@@ -55,13 +55,22 @@ def getFileSig(fileName, privKey):
 	# Open the file and read contents
 	signedData = None
 	signedData = open(fileName, "r")
+	if signedData.mode == "r":
+		datainFile = signedData.read()
+	
+	# Encrypting the contents with DES using 98765432 as my key
+	des = DES.new('98765432', DES.MODE_ECB)
+	cipherData = des.encrypt(datainFile)
 	
 	# Compute the SHA-512 hash of the contents
-	# sd = signed data
-	sdHash = SHA512.new(signedData).hexdigest()
+	# dif = data in file 
+	difHash = SHA512.new(datainFile).hexdigest()
 	
 	# Signing the hash using the digSig() function
-	fileSig = digSig(privKey, sdHash)
+	fileSig = digSig(privKey, difHash)
+	
+	# Closing the file
+	signedData.close()
 	
 	# Return the signed hash
 	return fileSig
@@ -105,7 +114,7 @@ def saveSig(fileName, signature):
 	
 	# Saving the tuple into the file
 	savetoFile = None
-	savetoFile = open(fileName, "w")
+	savetoFile = open(fileName, "w+")
 	savetoFile.write(sigtupString)
 	
 	# Closing the file
@@ -173,15 +182,6 @@ def main():
 		# TODO: 1. Get the file signature
 		#       2. Save the signature to the file
 		
-		# Getting data / string from the file for the file signature
-		try:
-			# Opening and reading the input file
-			dataFile = None
-			dataFile = open(inputFileName, "r")
-			except FileNotFoundError:
-				print("ERR: '", inputFileName, " cannot be opened! Try a valid file\n")
-				return
-			
 		# Getting the file signature
 		fileSignature = getFileSig(inputFileName, privateKey)
 		
