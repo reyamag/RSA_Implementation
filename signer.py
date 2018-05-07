@@ -185,7 +185,7 @@ def main():
 		fileSignature = getFileSig(inputFileName, privateKey)
 		
 		# Saving the signature to the input file 
-		saveSig(inputFileName, fileSignature)
+		saveSig(sigFileName, fileSignature)
 		
 		# Closing the file 
 		dataFile.close()
