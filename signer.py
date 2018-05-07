@@ -15,6 +15,7 @@ from base64 import b64encode, b64decode
 def loadKey(keyPath):
 	# The RSA key
 	key = None
+	
 	# Open the key file
 	with open(keyPath, 'r') as keyFile:
 		# Read the key file
@@ -23,6 +24,7 @@ def loadKey(keyPath):
 		decodedKey = b64decode(keyFileContent)
 		# Load the key
 		key = RSA.importKey(decodedKey)
+		
 	# Return the key
 	return key	
 		
@@ -30,16 +32,17 @@ def loadKey(keyPath):
 # Signs the string using an RSA private key
 # @param sigKey - the signature key
 # @param string - the string
+# @return digSignature - the digital signature
 ##################################################
 def digSig(sigKey, string):
 	# Get the SHA-512 hash of the string data
 	dataHash = SHA512.new(string).hexdigest()
 	
 	# Generating the signature by encrypting our hash with the private key
-	dataSignature = sigKey.sign(dataHash, '')
+	digSignature = sigKey.sign(dataHash, '')
 	
-	# Return the signature
-	return dataSignature
+	# Returning the digital signature
+	return digSignature
 
 ##########################################################
 # Returns the file signature
@@ -48,15 +51,20 @@ def digSig(sigKey, string):
 # @return fileSig - the file signature
 ##########################################################
 def getFileSig(fileName, privKey):
-	
 	# TODO:
-	# 1. Open the file
-	# 2. Read the contents
-	# 3. Compute the SHA-512 hash of the contents
-	# 4. Sign the hash computed in 4. using the digSig() function
-	# you implemented.
-	# 5. Return the signed hash; this is your digital signature
-	pass
+	# Open the file and read contents
+	signedData = None
+	signedData = open(fileName, "r")
+	
+	# Compute the SHA-512 hash of the contents
+	# sd = signed data
+	sdHash = SHA512.new(signedData).hexdigest()
+	
+	# Signing the hash using the digSig() function
+	fileSig = digSig(privKey, sdHash)
+	
+	# Return the signed hash
+	return fileSig
 	
 ###########################################################
 # Verifies the signature of the file
@@ -88,7 +96,20 @@ def saveSig(fileName, signature):
 	# Get the first value of the tuple, convert it
 	# to a string, and save it to the file (i.e., indicated
 	# by fileName)
-	pass	
+	
+	# Getting the first value of the tuple
+	signature_tuple = ast.literal_eval(signature)
+	
+	# Converting the tuple into a string
+	sigtupString = ''.join(signature_tuple)
+	
+	# Saving the tuple into the file
+	savetoFile = None
+	savetoFile = open(fileName, "w")
+	savetoFile.write(sigtupString)
+	
+	# Closing the file
+	savetoFile.close()
 
 ###########################################
 # Loads the signature and converts it into
@@ -147,27 +168,30 @@ def main():
 	elif keyFilename == "privKey.pem":
 		privateKey = loadKey(keyFileName)
 	
-	# Prepaing for file use
-	dataFile = None
-	
 	# We are signing
 	if mode == "sign":
 		# TODO: 1. Get the file signature
 		#       2. Save the signature to the file
 		
-		#Getting data / string from the file for the file signature
+		# Getting data / string from the file for the file signature
 		try:
+			# Opening and reading the input file
+			dataFile = None
 			dataFile = open(inputFileName, "r")
 			except FileNotFoundError:
 				print("ERR: '", inputFileName, " cannot be opened! Try a valid file\n")
 				return
+			
+		# Getting the file signature
+		fileSignature = getFileSig(inputFileName, privateKey)
 		
-		#Signing the string for the file signature
-		dataSig = digSig(privateKey, dataFile)
+		# Saving the signature to the input file 
+		saveSig(inputFileName, fileSignature)
 		
-		#Saving the signature to the input file 
-		saveSig(dataSig, inputFileName)
+		# Closing the file 
+		dataFile.close()
 		
+		# Notify the user that the signature was saved to the file
 		print ("Succes! Signature saved to file: ", sigFileName)
 	# We are verifying the signature
 	elif mode == "verify":
@@ -176,6 +200,7 @@ def main():
 		# signature signature in the signature file matches the
 		# signature of the input file
 		print ("Success! Signatures match.")
+		print ("Error! Signatures do not match.")
 	else:
 		print ("Invalid mode, please try again.")
 
