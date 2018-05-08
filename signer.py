@@ -51,11 +51,11 @@ def digSig(sigKey, string):
 ##########################################################
 def getFileSig(fileName, privKey):
 	# TODO:
-	# Open the file and read contents
-	signedData = None
-	signedData = open(fileName, "r")
-	if signedData.mode == "r":
-		datainFile = signedData.read()
+	# Open the input file and read contents
+	data = None
+	data = open(fileName, "r")
+	if data.mode == "r":
+		datainFile = data.read()
 	
 	# Encrypting the contents with DES using 98765432 as my key
 	des = DES.new('98765432', DES.MODE_ECB)
@@ -65,13 +65,14 @@ def getFileSig(fileName, privKey):
 	# dif = data in file 
 	difHash = SHA512.new(cipherData).hexdigest()
 	
-	# Signing the hash using the digSig() function
+	# Creating the signature for the input file with the 
+	# hash using the digSig() function
 	fileSig = digSig(privKey, difHash)
 	
-	# Closing the file
-	signedData.close()
+	# Closing the file 
+	data.close()
 	
-	# Return the signed hash
+	# Return the signature
 	return fileSig
 	
 ###########################################################
@@ -181,14 +182,11 @@ def main():
 		# TODO: 1. Get the file signature
 		#       2. Save the signature to the file
 		
-		# Getting the file signature
+		# Getting the digital signature for the input file
 		fileSignature = getFileSig(inputFileName, privateKey)
 		
-		# Saving the signature to the input file 
+		# Saving the digital signature to sigFileName
 		saveSig(sigFileName, fileSignature)
-		
-		# Closing the file 
-		dataFile.close()
 		
 		# Notify the user that the signature was saved to the file
 		print ("Succes! Signature saved to file: ", sigFileName)
