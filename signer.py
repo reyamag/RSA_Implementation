@@ -169,10 +169,9 @@ def verifySig(theHash, sig, veriKey):
 	
 	# Verifying the has against the signature 
 	verifyingObject = PKCS1_v1_5.new(veriKey.publickey())
-	verified = verifyingObject.verify(theHash, sig)
 	
 	# Returning the result 
-	if verified == True:
+	if verifyingObject.verify(theHash, sig):
 		return True
 	else:
 		return False
