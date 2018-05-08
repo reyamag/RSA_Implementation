@@ -1,6 +1,5 @@
 import os, random, struct
 import sys
-import ast
 from Crypto.Cipher import DES
 from Crypto.PublicKey import RSA 
 from Crypto.Signature import PKCS1_v1_5 
@@ -99,8 +98,8 @@ def verifyFileSig(fileName, pubKey, signature):
 	# True if matches and False if it does not match
 	if result == True: 
 		print("Success! Signatures match.")
-	else:
-		print("Error! Signatures do not match.")
+	elif result == False:
+		print("Error! Signatures DO NOT match.")
 
 ############################################
 # Saves the digital signature to a file
@@ -119,7 +118,7 @@ def saveSig(fileName, signature):
 	sigTuple = (signature,)
 	
 	# Converting the tuple into a string
-	sigtupString = " ".join([x[0] for x in sigTuple])
+	sigtupString = " ".join([str(x[0]) for x in sigTuple])
 	
 	# Saving the tuple into the file
 	savetoFile = None
@@ -223,7 +222,7 @@ def main():
 		saveSig(sigFileName, fileSignature)
 		
 		# Notify the user that the signature was saved to the file
-		print("Succes! Signature saved to file: ", sigFileName)
+		print "Succes! Saved the signature of", inputFileName, " to", sigFileName
 	# We are verifying the signature
 	elif mode == "verify":
 		# Reading the public key from a .pem file
@@ -235,7 +234,7 @@ def main():
 		# Decrypt the signature and compare the result against the SHA512 hash
 		verifyFileSig(inputFileName, publicKey, digitalSig)
 	else:
-		print("Invalid mode, please try again.")
+		print "Invalid mode, please try again."
 		exit()
 
 ### Call the main function ####
