@@ -81,13 +81,21 @@ def verifyFileSig(fileName, pubKey, signature):
 	
 	# TODO:
 	# 1. Read the contents of the input file (fileName)
+	inputData = None
+	inputData = open(fileName, "r")
+	if inputData.mode == "r":
+		inputdataContents = inputData.read()
+		
 	# 2. Compute the SHA-512 hash of the contents
+	# idc = input data contents
+	idcHash = SHA512.new(inputdataContents).hexdigest()
+	
 	# 3. Use the verifySig function you implemented in
 	# order to verify the file signature
 	# 4. Return the result of the verification i.e.,
 	# True if matches and False if it does not match
 	
-	pass
+
 
 ############################################
 # Saves the digital signature to a file
@@ -106,7 +114,7 @@ def saveSig(fileName, signature):
 	signature_tuple = ast.literal_eval(signature)
 	
 	# Converting the tuple into a string
-	sigtupString = ''.join(signature_tuple)
+	sigtupString = ''.join(signature_tuple[0])
 	
 	# Saving the tuple into the file
 	savetoFile = None
@@ -130,7 +138,16 @@ def loadSig(fileName):
 	# into an integer, and then put the integer into a single
 	# element tuple
 	
-	pass
+	# Opening the file and reading the signature
+	sig = None
+	sig = open(fileName, "r")
+	if sig.mode == "r":
+		signatureinFile = sig.read()
+		
+	# Converting the signature into an integer single element tuple
+	singleElemTuple = tuple(map(int, signatureinFile.split(' ')))
+	
+	return singleElemTuple
 	
 #################################################
 # Verifies the signature
@@ -199,10 +216,10 @@ def main():
 		publicKey = loadKey(keyFileName)
 		
 		# Reading the signature from sig file
-		loadSig()
+		digitalSig = loadSig(sigFileName)
 		
-		# Compute sha 512 hash of the data's file contents
-		verifyFileSig()
+		# Compute SHA 512 hash of the data's file contents
+		verifyFileSig(inputFileName, publicKey, digitalSig)
 		
 		# Decrypt the signature and compare the result against the SHA512 hash
 		verifySig()
