@@ -56,15 +56,11 @@ def getFileSig(fileName, privKey):
 	data = open(fileName, "r")
 	if data.mode == "r":
 		datainFile = data.read()
-	
-	# Encrypting the contents with DES using 98765432 as my key
-	des = DES.new('98765432', DES.MODE_ECB)
-	cipherData = des.encrypt(datainFile)
-	
+		
 	# Compute the SHA-512 hash of the contents
 	# dif = data in file 
-	difHash = SHA512.new(cipherData).hexdigest()
-	
+	difHash = SHA512.new(datainFile).hexdigest()
+
 	# Creating the signature for the input file with the 
 	# hash using the digSig() function
 	fileSig = digSig(privKey, difHash)
@@ -149,10 +145,11 @@ def verifySig(theHash, sig, veriKey):
 	# TODO: Verify the hash against the provided
 	# signature using the verify() function of the
 	# key and return the result
-	pass			
+	print("Success! Signatures match.")
+	print("Error! Signatures do not match.")
+	
 
-
-
+################################################
 # The main function
 def main():	
 	# Make sure that all the arguments have been provided
@@ -171,16 +168,22 @@ def main():
 	# The mode i.e., sign or verify
 	mode = sys.argv[4]
 	
-	# TODO: Load the keys using the loadKey() function provided.
-	if keyFilename == "pubKey.pem":
-		publicKey = loadKey(keyFileName)
-	elif keyFilename == "privKey.pem":
-		privateKey = loadKey(keyFileName)
+	#**********TODO at the end: DES encryption on the data
+	# Opening the input file and reading the data
+	#data = None
+	#data = open(inputFileName, "r")
+	#if data.mode == "r":
+	#	datainFile = data.read()
+	
+	# Encrypting the data contents with DES using 98765432 as my key
+	# dif = data in file
+	#des = DES.new('98765432', DES.MODE_ECB)
+	#difEncrypted = des.encrypt(datainFile)
 	
 	# We are signing
-	if mode == "sign":
-		# TODO: 1. Get the file signature
-		#       2. Save the signature to the file
+	if mode == "sign":		
+		# Reading the private key from a .pem file
+		privateKey = loadKey(keyFileName)
 		
 		# Getting the digital signature for the input file
 		fileSignature = getFileSig(inputFileName, privateKey)
@@ -189,17 +192,22 @@ def main():
 		saveSig(sigFileName, fileSignature)
 		
 		# Notify the user that the signature was saved to the file
-		print ("Succes! Signature saved to file: ", sigFileName)
+		print("Succes! Signature saved to file: ", sigFileName)
 	# We are verifying the signature
 	elif mode == "verify":
+		# Reading the public key from a .pem file
+		publicKey = loadKey(keyFileName)
 		
-		# TODO Use the verifyFileSig() function to check if the
-		# signature signature in the signature file matches the
-		# signature of the input file
-		print ("Success! Signatures match.")
-		print ("Error! Signatures do not match.")
+		# Reading the signature from sig file
+		loadSig()
+		
+		# Compute sha 512 hash of the data's file contents
+		verifyFileSig()
+		
+		# Decrypt the signature and compare the result against the SHA512 hash
+		verifySig()
 	else:
-		print ("Invalid mode, please try again.")
+		print("Invalid mode, please try again.")
 
 ### Call the main function ####
 if __name__ == "__main__":
