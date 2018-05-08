@@ -92,10 +92,14 @@ def verifyFileSig(fileName, pubKey, signature):
 	
 	# 3. Use the verifySig function you implemented in
 	# order to verify the file signature
+	result = verifySig(idcHash, signature, pubKey)
+	
 	# 4. Return the result of the verification i.e.,
 	# True if matches and False if it does not match
-	
-
+	if result == True: 
+		print("Success! Signatures match.")
+	else:
+		print("Error! Signatures do not match.")
 
 ############################################
 # Saves the digital signature to a file
@@ -162,8 +166,17 @@ def verifySig(theHash, sig, veriKey):
 	# TODO: Verify the hash against the provided
 	# signature using the verify() function of the
 	# key and return the result
-	print("Success! Signatures match.")
-	print("Error! Signatures do not match.")
+	
+	# Verifying the has against the signature 
+	verifyingObject = PKCS1_v1_5.new(veriKey.publickey())
+	verified = verifyingObject.verify(theHash, sig)
+	
+	# Returning the result 
+	if verified == True:
+		return True
+	else:
+		return False
+
 	
 
 ################################################
@@ -218,13 +231,11 @@ def main():
 		# Reading the signature from sig file
 		digitalSig = loadSig(sigFileName)
 		
-		# Compute SHA 512 hash of the data's file contents
-		verifyFileSig(inputFileName, publicKey, digitalSig)
-		
 		# Decrypt the signature and compare the result against the SHA512 hash
-		verifySig()
+		verifyFileSig(inputFileName, publicKey, digitalSig)
 	else:
 		print("Invalid mode, please try again.")
+		exit()
 
 ### Call the main function ####
 if __name__ == "__main__":
