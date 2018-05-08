@@ -1,5 +1,6 @@
 # RSA_Implementation
 An implementation of RSA public key cryptography using Python's cryptographic libraries.
+Python version used: 2.7
 
 # Authors
 Charles Bucher: charles.abucher@gmail.com <br>
