@@ -1,5 +1,6 @@
 import os, random, struct
 import sys
+import ast
 from Crypto.Cipher import DES
 from Crypto.PublicKey import RSA 
 from Crypto.Signature import PKCS1_v1_5 
@@ -114,11 +115,11 @@ def saveSig(fileName, signature):
 	# to a string, and save it to the file (i.e., indicated
 	# by fileName)
 	
-	# Getting the first value of the tuple
-	signature_tuple = ast.literal_eval(signature)
+	# Getting the tuple with a single value
+	sigTuple = (signature,)
 	
 	# Converting the tuple into a string
-	sigtupString = ''.join(signature_tuple[0])
+	" ".join([x[0] for x in sigTuple])
 	
 	# Saving the tuple into the file
 	savetoFile = None
