@@ -119,7 +119,7 @@ def saveSig(fileName, signature):
 	sigTuple = (signature,)
 	
 	# Converting the tuple into a string
-	" ".join([x[0] for x in sigTuple])
+	sigtupString = " ".join([x[0] for x in sigTuple])
 	
 	# Saving the tuple into the file
 	savetoFile = None
