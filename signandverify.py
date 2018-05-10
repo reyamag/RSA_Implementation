@@ -46,22 +46,22 @@ data = "hello world"
 ############## GENERATING SIGNATURE #####################
 
 # First, lets compute the SHA-512 hash of the data
-dataHash = SHA512.new(data).hexdigest()
+dataHash = SHA512.new(data.encode()).hexdigest()
 
 # Lets generate the signature by encrypting our hash with the private key
-dataSig = privKey.sign(dataHash, '')
+dataSig = privKey.sign(dataHash.encode(), '')
 
 
 ############# VERIFYING THE SIGNATURE ####################
 
 # First, lets compute the SHA-512 hash of the data
-dataHash = SHA512.new(data).hexdigest()
+dataHash = SHA512.new(data.encode()).hexdigest()
 
 # Now, verify the signature against the hash. I.e., the verify function
 # will decrypt the digital signature using the public key and then compare
 # the decrypted result to the dataHash
 
-if pubKey.verify(dataHash, dataSig) == True:
-	print "Match!"
+if pubKey.verify(dataHash.encode(), dataSig) == True:
+	print("Match!")
 else:
-	print "No match!"
+	print("No match!")
