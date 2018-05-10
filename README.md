@@ -1,6 +1,6 @@
 # RSA_Implementation
 An implementation of RSA public key cryptography using Python's cryptographic libraries.
-Python version used: 2.7
+Python version used: 3.6
 
 # Authors
 Charles Bucher: charles.abucher@gmail.com <br>
@@ -16,20 +16,27 @@ When the program is running, it will check the mode, if the mode is sign, the pr
 If the mode is verify, the program will read the public key from the specified .pem file, read the signature from the specifed signature file, and compute the SHA 512 hash of the data file's contents. Next it will decrypt the signature and compare the result against the SHA 512 hash. If they match, then the signature has been successfully verified. If they do not match, then the verifircation fails. The program will utput the result of the verification. 
 
 # Running the Program
-python signer.py -KEY FILE NAME- -SIGNATURE FILE NAME- -INPUT FILE NAME- -MODE- <br>
-  Where, <br>
-    - KEY FILE NAME: the name of the file containing the private key (if signing) or public key <br>
-    - SIGNATURE FILE NAME: the file to which to save the digital signature (if signing) or from which to load the digital sigature (when verifiying) <br>
-    - INPUT FILE NAME: the file for which to generate or verify the digital signature <br>
-    - MODE: Can be the following, <br>
-        i) sign: <br>
-        1. read input file name <br>
-        2. compute an SHA 512 hash of the contents read <br>
-        3. encrpyt the hash with the private key from the key file name file <br>
-        4. save the result (the digital signature) to the signature file name <br>
-        ii) verify: <br>
-        1. read the input file name <br>
-        2. compute an SHA 512 hash of the contents read <br>
-        3. decrypt the signature from signature file name using the public key from file key file name <br>
-        4. compare the decrypted vale against the SHA 512 hash, and output whether the signature matches. <br>
+
+1. *Setup<br>*
+Ensure compatability with Python3.6 and support for the Python library 'Crypto'
+
+2. *Execute*<br>
+***$python3 signer.py \<KEY FILE NAME> \<SIGNATURE FILE NAME> \<INPUT FILE NAME> \<MODE>***
+
   
+# Argument Descriptions.
+
+\<KEY FILE NAME>: 
+- The file containing the private key (if signing) or public key (if verifying)
+
+\<SIGNATURE FILE NAME>:
+- The file to which to save the digital signature (if signing) <br>
+  or
+- The file from which to load the digital sigature (when verifiying)
+  
+\<INPUT FILE NAME>: 
+- The file whose contents are actually signed
+  
+\<MODE>: 
+- Sign
+- Verify
