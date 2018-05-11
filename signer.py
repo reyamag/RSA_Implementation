@@ -18,18 +18,6 @@ def main():
 	# The mode i.e., sign or verify
 	mode = sys.argv[4]
 	
-	#**********TODO at the end: DES encryption on the data
-	# Opening the input file and reading the data
-	#data = None
-	#data = open(inputFileName, "r")
-	#if data.mode == "r":
-	#	datainFile = data.read()
-	
-	# Encrypting the data contents with DES using 98765432 as my key
-	# dif = data in file
-	#des = DES.new('98765432', DES.MODE_ECB)
-	#difEncrypted = des.encrypt(datainFile)
-	
 	if mode == "sign":		
 		# Reading the private key from a .pem file
 		privateKey = loadKey(keyFileName)
@@ -39,7 +27,27 @@ def main():
 		
 		# Saving the digital signature to sigFileName
 		saveSig(sigFileName, fileSignature)
+
+		# Encrypting the signature with DES
+		inFile = None
+		inFile = open(sigFileName, 'r')
+		sigData = inFile.read()
 		
+		des = DES.new('98765432', DES.MODE_ECB)
+		cipherText = des.encrypt(sigData)
+		linux 14.04
+		inFile.close()
+
+		# Writing the encrypted signature back to file
+		outFile = None
+		outFile = open(sigFileName, 'w')
+
+		# Converting from bytes to string
+		cipherText = b"cipherText".decode("utf-8")
+		outFile.write(cipherText)
+		
+		outFile.close()
+
 		# Notify the user that the signature was saved to the file
 		print("Succes! Saved the signature of", inputFileName, "to", sigFileName)
 	
@@ -47,7 +55,25 @@ def main():
 		# Reading the public key from a .pem file
 		publicKey = loadKey(keyFileName)
 		
-		# Reading the signature from sig file
+		# Reading the encrypted signature from file
+		inFile = None
+		inFile = open(sigFileName, 'r')
+		encSig = inFile.read()
+		inFile.close()
+
+		# Converting from string to bytes
+		sigBytes = bytes(encSig, 'utf-8')	
+		
+		# Decrypting the encrypted signature
+		des = DES.new('12345678', DES.MODE_ECB)
+		decSig = des.decrypt(sigBytes)
+
+		# Saving the decrypted back to the file
+		outFile = None
+		outFile = open(sigFileName, 'w')
+		outFile.write(decSig)
+
+		# Reading the decrypted signature from sig file to verify
 		digitalSig = loadSig(sigFileName)
 		
 		# Decrypt the signature and compare the result against the SHA512 hash
