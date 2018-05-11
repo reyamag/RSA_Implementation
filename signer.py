@@ -41,7 +41,7 @@ def main():
 		saveSig(sigFileName, fileSignature)
 		
 		# Notify the user that the signature was saved to the file
-		print("Succes! Saved the signature of", inputFileName, " to", sigFileName)
+		print("Succes! Saved the signature of", inputFileName, "to", sigFileName)
 	
 	elif mode == "verify":
 		# Reading the public key from a .pem file
