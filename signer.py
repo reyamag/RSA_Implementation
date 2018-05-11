@@ -72,6 +72,7 @@ def main():
 		outFile = None
 		outFile = open(sigFileName, 'w')
 		outFile.write(decSig)
+		outFile.close()
 
 		# Reading the decrypted signature from sig file to verify
 		digitalSig = loadSig(sigFileName)
