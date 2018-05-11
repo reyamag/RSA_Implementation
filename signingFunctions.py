@@ -1,4 +1,4 @@
-from Crypto.Cipher import DES 
+from Crypto.Cipher import DES
 from Crypto.PublicKey import RSA 
 from Crypto.Signature import PKCS1_v1_5 
 from Crypto.Hash import SHA512
@@ -15,7 +15,7 @@ def readAndHash(fileName):
     inFile = open(fileName, 'r')
     contents = inFile.read()
     inFile.close()
-
+ 
     # Compute SHA-512 hash on the contents
     return SHA512.new(contents.encode())
 
