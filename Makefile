@@ -1,7 +1,7 @@
 all:
-	@cp signer.py
+  @cp signer.py
   @cp signingFunctions.py
 
 clean:  
   @rm -f signer.py
-	@rm signingFunctions.py
+  @rm signingFunctions.py
