@@ -35,7 +35,6 @@ def main():
 		
 		des = DES.new('98765432', DES.MODE_ECB)
 		cipherText = des.encrypt(sigData)
-		linux 14.04
 		inFile.close()
 
 		# Writing the encrypted signature back to file
