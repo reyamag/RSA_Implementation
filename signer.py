@@ -23,6 +23,7 @@ def main():
 		privateKey = loadKey(keyFileName)
 		
 		# Getting the digital signature for the input file
+		# getFileSig = computes the SHA512 hash and encrypts it with the private key 
 		fileSignature = getFileSig(inputFileName, privateKey)
 		
 		# Saving the digital signature to sigFileName
@@ -35,10 +36,11 @@ def main():
 		# Reading the public key from a .pem file
 		publicKey = loadKey(keyFileName)
 
-		# Reading the decrypted signature from sig file to verify
+		# Getting the saved signature from file and storing it in digitalSig
 		digitalSig = loadSig(sigFileName)
 		
-		# Decrypt the signature and compare the result against the SHA512 hash
+		# Comparing the decrypted value against the SHA512 hash
+		# verifyFileSig decrypts the signature with the publicKey
 		verifyFileSig(inputFileName, publicKey, digitalSig)
 	else:
 		print("Invalid mode, please try again.")
